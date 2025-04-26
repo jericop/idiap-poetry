@@ -75,12 +75,21 @@ jobs:
           exit 1
         fi
 
+  debug:
+    name: Pringt Debug Info
+    if: ${{ always() }}
+    runs-on: ubuntu-22.04
+    needs: integration
+    steps:
+    - run: |
+        echo ${{ github.event_path }}
+
   upload:
     name: Upload Workflow Event Payload
     runs-on: ubuntu-22.04
     steps:
     - name: Upload Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: event-payload
         path: ${{ github.event_path }}
